@@ -2,15 +2,14 @@ import streamlit as st
 
 # Page configuration
 st.set_page_config(
-    page_title="DescAI - Generator",
+    page_title="DescAI Pro",
     page_icon="🚀",
     layout="centered"
 )
 
-# Title
-st.title("🚀 DescAI")
-st.markdown("### Generate high-converting Shopify product descriptions in seconds")
-
+# Header
+st.title("🚀 DescAI Pro")
+st.markdown("### AI-powered Shopify descriptions that convert buyers")
 st.divider()
 
 # Target Market
@@ -38,59 +37,71 @@ market = st.selectbox(
     ]
 )
 
-# Input fields
-col1, col2 = st.columns(2)
+# Inputs
+product = st.text_input(
+    "Product Name",
+    placeholder="Wireless Earbuds, Smart Watch"
+)
 
-with col1:
-    product = st.text_input(
-        "Product Name",
-        placeholder="Example: Wireless Headphones, Nike Shoes..."
-    )
-
-with col2:
-    price = st.text_input(
-        "Price",
-        placeholder="Example: $29.99"
-    )
+price = st.text_input(
+    "Price",
+    placeholder="$49.99"
+)
 
 benefit = st.text_area(
     "Main Benefit",
-    placeholder="Example: Noise cancellation, all-day comfort..."
+    placeholder="8-hour battery life, waterproof, noise cancelling"
 )
 
 # Generate button
-if st.button("🚀 GENERATE DESCRIPTION"):
-
+if st.button(
+    "🚀 GENERATE PRO DESCRIPTION",
+    type="primary",
+    use_container_width=True
+):
     if product and benefit:
 
         description = f"""
-✨ **{product}**
+# {product}
 
 🎯 Target Market: {market}
 
-Discover the {product}, designed to provide {benefit}.
+Stop settling for less. Experience premium quality that actually delivers.
 
-✅ Premium quality and durability
-✅ Fast shipping
-✅ Satisfaction guarantee
-✅ Secure payment
+## Why customers choose {product}
 
-💰 Price: {price if price else 'Contact us'}
+✅ {benefit}
 
-Order yours today and upgrade your lifestyle!
+✅ Premium materials built to last
+
+✅ Fast and reliable shipping
+
+✅ 30-day money-back guarantee
+
+💰 Price: {price if price else '$49.99'}
+
+⚡ Limited stock available
+
+Upgrade your lifestyle today and order yours now.
 """
 
-        st.success("✅ Description generated successfully!")
+        st.success("✅ Description Ready")
 
         st.text_area(
-            "Copy this description to Shopify",
+            "Copy and paste this description into Shopify",
             value=description,
-            height=250
+            height=300
         )
 
+        st.balloons()
+
     else:
-        st.error("⚠️ Please enter the product name and main benefit.")
+        st.warning(
+            "⚠️ Please enter a product name and main benefit."
+        )
 
 st.divider()
 
-st.caption("DescAI V1 - Built by kēllønę 🔗💨")
+st.caption(
+    "DescAI Pro V2 | Built by kēllønę 🔗💨"
+)
