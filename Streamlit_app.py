@@ -93,7 +93,7 @@ Upgrade your lifestyle today and order yours now.
             height=300
         )
 
-        st.balloons()
+        st.markdown()
 
     else:
         st.warning(
