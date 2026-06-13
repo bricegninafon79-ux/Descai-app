@@ -13,6 +13,31 @@ st.markdown("### Generate high-converting Shopify product descriptions in second
 
 st.divider()
 
+# Target Market
+market = st.selectbox(
+    "Target Market",
+    [
+        "United States 🇺🇸",
+        "United Kingdom 🇬🇧",
+        "Canada 🇨🇦",
+        "Australia 🇦🇺",
+        "France 🇫🇷",
+        "Germany 🇩🇪",
+        "Spain 🇪🇸",
+        "Italy 🇮🇹",
+        "Netherlands 🇳🇱",
+        "South Africa 🇿🇦",
+        "Nigeria 🇳🇬",
+        "Kenya 🇰🇪",
+        "Ghana 🇬🇭",
+        "Benin 🇧🇯",
+        "Senegal 🇸🇳",
+        "Ivory Coast 🇨🇮",
+        "Morocco 🇲🇦",
+        "Worldwide 🌍"
+    ]
+)
+
 # Input fields
 col1, col2 = st.columns(2)
 
@@ -41,6 +66,8 @@ if st.button("🚀 GENERATE DESCRIPTION"):
         description = f"""
 ✨ **{product}**
 
+🎯 Target Market: {market}
+
 Discover the {product}, designed to provide {benefit}.
 
 ✅ Premium quality and durability
@@ -66,4 +93,4 @@ Order yours today and upgrade your lifestyle!
 
 st.divider()
 
-st.caption("DescAI V1 - Built by kellone")
+st.caption("DescAI V1 - Built by kēllønę 🔗💨")
