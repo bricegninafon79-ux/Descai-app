@@ -93,7 +93,7 @@ Upgrade your lifestyle today and order yours now.
             height=300
         )
 
-        st.markdown()
+        st.info("🚀 Your description is ready to use.")
 
     else:
         st.warning(
