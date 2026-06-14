@@ -23,7 +23,32 @@ if "paid" not in st.session_state:
 
 
 # ======================
-# HOME PAGE (PLANS)
+# SIDEBAR GLOBAL (VISIBLE PARTOUT)
+# ======================
+st.sidebar.title("⚙️ Settings")
+
+market = st.sidebar.selectbox(
+    "Target Market",
+    ["United States 🇺🇸", "France 🇫🇷", "Germany 🇩🇪", "Worldwide 🌍"]
+)
+
+language = st.sidebar.selectbox(
+    "Language",
+    ["English", "French", "Spanish", "German"]
+)
+
+tone = st.sidebar.selectbox(
+    "Writing Tone",
+    ["Professional", "Luxury", "Friendly", "Persuasive"]
+)
+
+st.sidebar.divider()
+st.sidebar.write(f"Plan: {st.session_state.plan}")
+st.sidebar.write(f"Paid: {st.session_state.paid}")
+
+
+# ======================
+# HOME PAGE
 # ======================
 def home():
 
@@ -39,21 +64,16 @@ def home():
 
     with col1:
         st.markdown("## 🟢 Basic")
-        st.markdown("Free simple descriptions")
         if st.button("Select Basic", use_container_width=True):
             select_plan("Basic")
 
     with col2:
         st.markdown("## 🔵 Premium")
-        st.markdown("High converting copywriting")
-        st.markdown("💰 $9.99")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
 
     with col3:
         st.markdown("## 🟣 Ultra")
-        st.markdown("Elite sales copywriting")
-        st.markdown("💰 $19.99")
         if st.button("Select Ultra", use_container_width=True):
             select_plan("Ultra")
 
@@ -65,12 +85,12 @@ def payment():
 
     st.title("💳 Payment Required")
 
-    st.info(f"Selected Plan: {st.session_state.plan}")
+    st.info(f"Plan: {st.session_state.plan}")
 
-    st.warning("Complete payment before accessing generator")
+    st.warning("You must complete payment before access")
 
     if st.session_state.plan == "Basic":
-        st.success("Basic plan is free")
+        st.success("Free plan")
 
         if st.button("Continue"):
             st.session_state.paid = True
@@ -94,27 +114,21 @@ def payment():
 def get_intro(level, tone, product):
 
     if level == "Basic":
-        return f"{product} is a simple and functional product."
+        return f"{product} is a simple product."
 
     elif level == "Premium":
-        if tone == "Luxury":
-            return f"Experience premium quality with {product}."
-        else:
-            return f"{product} delivers strong performance and value."
+        return f"{product} delivers strong performance and value."
 
     else:
-        if tone == "Luxury":
-            return f"Step into luxury with {product} — premium design and performance."
-        else:
-            return f"Don’t settle for average. {product} is built to dominate."
+        return f"{product} is built for maximum impact and results."
 
 
 # ======================
-# APP PAGE (GENERATOR)
+# APP PAGE
 # ======================
 def app():
 
-    # 🔒 BLOCK ACCESS
+    # LOCK ACCESS
     if not st.session_state.paid:
         st.session_state.page = "payment"
         st.rerun()
@@ -125,51 +139,16 @@ def app():
 
     st.divider()
 
-    # ======================
-    # SIDEBAR MENU (RESTORED)
-    # ======================
-    st.sidebar.title("⚙️ Settings")
-
-    market = st.sidebar.selectbox(
-        "Target Market",
-        ["United States 🇺🇸", "France 🇫🇷", "Germany 🇩🇪", "Worldwide 🌍"]
-    )
-
-    language = st.sidebar.selectbox(
-        "Language",
-        ["English", "French", "Spanish", "German"]
-    )
-
-    tone = st.sidebar.selectbox(
-        "Writing Tone",
-        ["Professional", "Luxury", "Friendly", "Persuasive"]
-    )
-
-    st.sidebar.divider()
-    st.sidebar.caption(f"Plan: {st.session_state.plan}")
-
-    # ======================
-    # INPUTS
-    # ======================
-    col1, col2 = st.columns(2)
-
-    with col1:
-        product = st.text_input("Product Name")
-        brand = st.text_input("Brand")
-
-    with col2:
-        audience = st.text_input("Target Audience")
-        price = st.text_input("Price")
-
+    product = st.text_input("Product Name")
+    brand = st.text_input("Brand")
+    audience = st.text_input("Target Audience")
+    price = st.text_input("Price")
     benefit = st.text_area("Main Benefit")
 
     feature1 = st.text_input("Feature 1")
     feature2 = st.text_input("Feature 2")
     feature3 = st.text_input("Feature 3")
 
-    # ======================
-    # GENERATE
-    # ======================
     if st.button("🚀 GENERATE", use_container_width=True):
 
         if product and benefit:
