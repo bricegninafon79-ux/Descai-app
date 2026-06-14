@@ -77,6 +77,7 @@ def get_intro(level, tone, product):
         else:
             return f"Don’t settle for average. {product} is built to dominate."
 
+
 # ======================
 # PAGE 2 - APP (GENERATOR)
 # ======================
@@ -88,7 +89,7 @@ def app():
 
     st.divider()
 
-    # Sidebar settings
+    # Sidebar
     st.sidebar.title("⚙️ Settings")
 
     market = st.sidebar.selectbox(
@@ -169,6 +170,9 @@ def app():
 
 
 # ======================
-# ROUTER (PAGE SYSTEM)
+# ROUTER
 # ======================
-if st.session_state.page == "
+if st.session_state.page == "home":
+    home()
+else:
+    app()
