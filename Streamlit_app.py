@@ -59,7 +59,7 @@ def home():
 
 
 # ======================
-# PAYMENT PAGE (PAYWALL)
+# PAYMENT PAGE
 # ======================
 def payment():
 
@@ -67,21 +67,17 @@ def payment():
 
     st.info(f"Selected Plan: {st.session_state.plan}")
 
-    st.warning("You must complete payment before accessing the generator.")
+    st.warning("Complete payment before accessing generator")
 
     if st.session_state.plan == "Basic":
         st.success("Basic plan is free")
 
-        if st.button("Continue to App"):
+        if st.button("Continue"):
             st.session_state.paid = True
             st.session_state.page = "app"
             st.rerun()
 
     else:
-        st.markdown("### Secure Checkout")
-
-        st.write("Complete payment to unlock your generator.")
-
         if st.button("💳 Simulate Payment Success"):
             st.session_state.paid = True
             st.session_state.page = "app"
@@ -106,7 +102,7 @@ def get_intro(level, tone, product):
         else:
             return f"{product} delivers strong performance and value."
 
-    else:  # Ultra
+    else:
         if tone == "Luxury":
             return f"Step into luxury with {product} — premium design and performance."
         else:
@@ -118,7 +114,7 @@ def get_intro(level, tone, product):
 # ======================
 def app():
 
-    # 🔒 HARD LOCK
+    # 🔒 BLOCK ACCESS
     if not st.session_state.paid:
         st.session_state.page = "payment"
         st.rerun()
@@ -129,7 +125,32 @@ def app():
 
     st.divider()
 
-    # Inputs
+    # ======================
+    # SIDEBAR MENU (RESTORED)
+    # ======================
+    st.sidebar.title("⚙️ Settings")
+
+    market = st.sidebar.selectbox(
+        "Target Market",
+        ["United States 🇺🇸", "France 🇫🇷", "Germany 🇩🇪", "Worldwide 🌍"]
+    )
+
+    language = st.sidebar.selectbox(
+        "Language",
+        ["English", "French", "Spanish", "German"]
+    )
+
+    tone = st.sidebar.selectbox(
+        "Writing Tone",
+        ["Professional", "Luxury", "Friendly", "Persuasive"]
+    )
+
+    st.sidebar.divider()
+    st.sidebar.caption(f"Plan: {st.session_state.plan}")
+
+    # ======================
+    # INPUTS
+    # ======================
     col1, col2 = st.columns(2)
 
     with col1:
@@ -146,12 +167,9 @@ def app():
     feature2 = st.text_input("Feature 2")
     feature3 = st.text_input("Feature 3")
 
-    tone = st.selectbox(
-        "Writing Tone",
-        ["Professional", "Luxury", "Friendly", "Persuasive"]
-    )
-
+    # ======================
     # GENERATE
+    # ======================
     if st.button("🚀 GENERATE", use_container_width=True):
 
         if product and benefit:
@@ -182,7 +200,7 @@ def app():
             st.text_area("Result", value=result, height=300)
 
         else:
-            st.warning("Please fill required fields")
+            st.warning("Fill required fields")
 
 
 # ======================
