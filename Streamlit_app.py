@@ -23,7 +23,7 @@ if "paid" not in st.session_state:
 
 
 # ======================
-# SIDEBAR GLOBAL (VISIBLE PARTOUT)
+# SIDEBAR GLOBAL
 # ======================
 st.sidebar.title("⚙️ Settings")
 
@@ -48,7 +48,7 @@ st.sidebar.write(f"Paid: {st.session_state.paid}")
 
 
 # ======================
-# HOME PAGE
+# HOME PAGE (PLANS WITH FULL DESCRIPTION)
 # ======================
 def home():
 
@@ -64,16 +64,31 @@ def home():
 
     with col1:
         st.markdown("## 🟢 Basic")
+        st.markdown("Simple & fast product descriptions")
+        st.markdown("✔ Clean structure")
+        st.markdown("✔ Good for testing products")
+        st.markdown("❌ No marketing optimization")
+        st.markdown("💰 Free")
         if st.button("Select Basic", use_container_width=True):
             select_plan("Basic")
 
     with col2:
         st.markdown("## 🔵 Premium")
+        st.markdown("High converting Shopify descriptions")
+        st.markdown("✔ Persuasive copywriting")
+        st.markdown("✔ Marketing optimized")
+        st.markdown("✔ Better conversion rate")
+        st.markdown("💰 $9.99 / month")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
 
     with col3:
         st.markdown("## 🟣 Ultra")
+        st.markdown("Elite sales copywriting engine")
+        st.markdown("✔ Emotional marketing")
+        st.markdown("✔ Scarcity & urgency")
+        st.markdown("✔ Maximum conversion focus")
+        st.markdown("💰 $19.99 / month")
         if st.button("Select Ultra", use_container_width=True):
             select_plan("Ultra")
 
@@ -114,13 +129,19 @@ def payment():
 def get_intro(level, tone, product):
 
     if level == "Basic":
-        return f"{product} is a simple product."
+        return f"{product} is a simple and functional product."
 
     elif level == "Premium":
-        return f"{product} delivers strong performance and value."
+        if tone == "Luxury":
+            return f"Experience premium quality with {product}."
+        else:
+            return f"{product} delivers strong performance and value."
 
     else:
-        return f"{product} is built for maximum impact and results."
+        if tone == "Luxury":
+            return f"Step into luxury with {product} — premium design and performance."
+        else:
+            return f"Don’t settle for average. {product} is built to dominate."
 
 
 # ======================
@@ -128,7 +149,6 @@ def get_intro(level, tone, product):
 # ======================
 def app():
 
-    # LOCK ACCESS
     if not st.session_state.paid:
         st.session_state.page = "payment"
         st.rerun()
