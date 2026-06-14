@@ -1,19 +1,18 @@
 import streamlit as st
 
-# Page configuration
+# Page config
 st.set_page_config(
     page_title="DescAI Pro",
     page_icon="🚀",
-    layout="centered"
+    layout="wide"
 )
 
-# Header
-st.title("🚀 DescAI Pro")
-st.markdown("### AI-powered Shopify descriptions that convert buyers")
-st.divider()
+# ======================
+# SIDEBAR (MENU PRO)
+# ======================
+st.sidebar.title("⚙️ Settings")
 
-# Target Market
-market = st.selectbox(
+market = st.sidebar.selectbox(
     "Target Market",
     [
         "United States 🇺🇸",
@@ -37,7 +36,6 @@ market = st.selectbox(
     ]
 )
 
-# Language logic
 languages = ["English", "French", "Spanish", "German", "Italian", "Dutch"]
 
 default_language = "English"
@@ -57,34 +55,47 @@ default_index = 0
 if default_language in languages:
     default_index = languages.index(default_language)
 
-language = st.selectbox(
+language = st.sidebar.selectbox(
     "Language",
     languages,
     index=default_index
 )
 
-# Writing Tone
-tone = st.selectbox(
+tone = st.sidebar.selectbox(
     "Writing Tone",
     ["Professional", "Luxury", "Friendly", "Persuasive", "Minimalist"]
 )
 
-# Inputs
-product = st.text_input("Product Name", placeholder="Wireless Earbuds, Smart Watch")
-brand = st.text_input("Brand Name", placeholder="TechPro")
-audience = st.text_input("Target Audience", placeholder="Students, athletes, professionals...")
-price = st.text_input("Price", placeholder="$49.99")
-benefit = st.text_area("Main Benefit", placeholder="8-hour battery life, waterproof, noise cancelling")
+# ======================
+# MAIN INTERFACE
+# ======================
+st.title("🚀 DescAI Pro")
+st.markdown("### AI-powered Shopify descriptions that convert buyers")
+st.divider()
+
+col1, col2 = st.columns(2)
+
+with col1:
+    product = st.text_input("Product Name", placeholder="Wireless Earbuds, Smart Watch")
+    brand = st.text_input("Brand Name", placeholder="TechPro")
+    price = st.text_input("Price", placeholder="$49.99")
+
+with col2:
+    audience = st.text_input("Target Audience", placeholder="Students, athletes, professionals...")
+    benefit = st.text_area("Main Benefit", placeholder="8-hour battery life, waterproof, noise cancelling")
+
+st.subheader("Features")
 feature1 = st.text_input("Feature 1", placeholder="Waterproof")
 feature2 = st.text_input("Feature 2", placeholder="10-hour battery life")
 feature3 = st.text_input("Feature 3", placeholder="Fast charging")
 
-# Generate button
+# ======================
+# GENERATION
+# ======================
 if st.button("🚀 GENERATE PRO DESCRIPTION", type="primary", use_container_width=True):
 
     if product.strip() and benefit.strip():
 
-        # Tone intro
         if tone == "Professional":
             intro = f"Introducing {product}, a reliable solution designed for modern users."
         elif tone == "Luxury":
@@ -96,21 +107,21 @@ if st.button("🚀 GENERATE PRO DESCRIPTION", type="primary", use_container_widt
         else:
             intro = f"{product}. Smart. Efficient. Reliable."
 
-        # Language output
+        # TEXT OUTPUT
         if language == "French":
             description = f"""
 # {product}
 
 🏷️ Marque : {brand}
-🎯 Marché cible : {market}
+🎯 Marché : {market}
 
 {intro}
 
-Conçu pour : {audience}
+🎯 Pour : {audience}
 
-✅ Avantage principal : {benefit}
+🔥 Avantage : {benefit}
 
-Caractéristiques :
+📌 Caractéristiques:
 • {feature1}
 • {feature2}
 • {feature3}
@@ -118,146 +129,35 @@ Caractéristiques :
 💰 Prix : {price if price else '49,99 €'}
 
 ⚡ Stock limité
-
-Commandez dès aujourd'hui.
 """
-
-        elif language == "Spanish":
-            description = f"""
-# {product}
-
-🏷️ Marca: {brand}
-🎯 Mercado objetivo: {market}
-
-{intro}
-
-Diseñado para: {audience}
-
-✅ Beneficio principal: {benefit}
-
-Características:
-• {feature1}
-• {feature2}
-• {feature3}
-
-💰 Precio: {price if price else '49,99 €'}
-
-⚡ Stock limitado
-
-Pide el tuyo hoy.
-"""
-
-        elif language == "German":
-            description = f"""
-# {product}
-
-🏷️ Marke: {brand}
-🎯 Zielmarkt: {market}
-
-{intro}
-
-Entwickelt für: {audience}
-
-✅ Hauptvorteil: {benefit}
-
-Merkmale:
-• {feature1}
-• {feature2}
-• {feature3}
-
-💰 Preis: {price if price else '49,99 €'}
-
-⚡ Begrenzter Vorrat
-
-Jetzt bestellen.
-"""
-
-        elif language == "Italian":
-            description = f"""
-# {product}
-
-🏷️ Marca: {brand}
-🎯 Mercato di riferimento: {market}
-
-{intro}
-
-Progettato per: {audience}
-
-✅ Vantaggio principale: {benefit}
-
-Caratteristiche:
-• {feature1}
-• {feature2}
-• {feature3}
-
-💰 Prezzo: {price if price else '49,99 €'}
-
-⚡ Disponibilità limitata
-
-Ordina oggi stesso.
-"""
-
-        elif language == "Dutch":
-            description = f"""
-# {product}
-
-🏷️ Merk: {brand}
-🎯 Doelmarkt: {market}
-
-{intro}
-
-Ontworpen voor: {audience}
-
-✅ Belangrijkste voordeel: {benefit}
-
-Kenmerken:
-• {feature1}
-• {feature2}
-• {feature3}
-
-💰 Prijs: {price if price else '49,99 €'}
-
-⚡ Beperkte voorraad
-
-Bestel vandaag nog.
-"""
-
         else:
             description = f"""
 # {product}
 
 🏷️ Brand: {brand}
-🎯 Target Market: {market}
+🎯 Market: {market}
 
 {intro}
 
-Designed for: {audience}
+🎯 For: {audience}
 
-✅ Main Benefit: {benefit}
+🔥 Benefit: {benefit}
 
-Features:
+📌 Features:
 • {feature1}
 • {feature2}
 • {feature3}
 
 💰 Price: {price if price else '$49.99'}
 
-⚡ Limited stock available
-
-Order yours today and upgrade your lifestyle.
+⚡ Limited stock
 """
 
-        st.success("✅ Description Ready")
-        st.text_area("Copy and paste this description into Shopify", value=description, height=350)
-
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Status", "Ready")
-        with col2:
-            st.metric("Quality", "PRO")
+        st.success("✅ Description generated successfully")
+        st.text_area("Result", value=description, height=300)
 
     else:
-        st.warning("⚠️ Please enter at least the product name and main benefit.")
+        st.warning("⚠️ Please fill Product Name and Main Benefit")
 
-st.divider()
-st.caption("DescAI Pro V5 | Built by kēllønę 🔗💨")
+st.sidebar.divider()
+st.sidebar.caption("DescAI Pro | SaaS UI version 🚀")
