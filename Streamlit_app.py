@@ -37,7 +37,9 @@ market = st.selectbox(
     ]
 )
 
-# Automatic language selection
+# Language logic
+languages = ["English", "French", "Spanish", "German", "Italian", "Dutch"]
+
 default_language = "English"
 
 if market in ["France 🇫🇷", "Benin 🇧🇯", "Senegal 🇸🇳", "Ivory Coast 🇨🇮", "Morocco 🇲🇦"]:
@@ -51,10 +53,14 @@ elif market == "Italy 🇮🇹":
 elif market == "Netherlands 🇳🇱":
     default_language = "Dutch"
 
+default_index = 0
+if default_language in languages:
+    default_index = languages.index(default_language)
+
 language = st.selectbox(
     "Language",
-    ["English", "French", "Spanish", "German", "Italian", "Dutch"],
-    index=["English", "French", "Spanish", "German", "Italian", "Dutch"].index(default_language)
+    languages,
+    index=default_index
 )
 
 # Writing Tone
@@ -76,7 +82,7 @@ feature3 = st.text_input("Feature 3", placeholder="Fast charging")
 # Generate button
 if st.button("🚀 GENERATE PRO DESCRIPTION", type="primary", use_container_width=True):
 
-    if product and benefit:
+    if product.strip() and benefit.strip():
 
         # Tone intro
         if tone == "Professional":
