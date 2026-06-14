@@ -68,7 +68,7 @@ def home():
         st.markdown("✔ Clean structure")
         st.markdown("✔ Good for testing products")
         st.markdown("❌ No marketing optimization")
-        st.markdown("💰 Free")
+        st.markdown("💰 $9.99 / month")
         if st.button("Select Basic", use_container_width=True):
             select_plan("Basic")
 
@@ -78,7 +78,7 @@ def home():
         st.markdown("✔ Persuasive copywriting")
         st.markdown("✔ Marketing optimized")
         st.markdown("✔ Better conversion rate")
-        st.markdown("💰 $9.99 / month")
+        st.markdown("💰 $15.99 / month")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
 
@@ -88,7 +88,7 @@ def home():
         st.markdown("✔ Emotional marketing")
         st.markdown("✔ Scarcity & urgency")
         st.markdown("✔ Maximum conversion focus")
-        st.markdown("💰 $19.99 / month")
+        st.markdown("💰 $22.99 / month")
         if st.button("Select Ultra", use_container_width=True):
             select_plan("Ultra")
 
