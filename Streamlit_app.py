@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ======================
-# PAGE CONFIG
+# CONFIG
 # ======================
 st.set_page_config(
     page_title="DescAI Pro",
@@ -10,200 +10,140 @@ st.set_page_config(
 )
 
 # ======================
-# TITLE
+# SESSION STATE
 # ======================
-st.title("🚀 DescAI Pro")
-st.markdown("### AI-powered Shopify descriptions that convert buyers")
-st.divider()
+if "page" not in st.session_state:
+    st.session_state.page = "home"
 
-# ======================
-# PRICING CARDS
-# ======================
-st.subheader("💎 Choose Your Plan")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("### 🟢 Basic")
-    st.markdown("Simple & fast product descriptions")
-    st.markdown("✔ Good for testing products")
-    st.markdown("✔ Clean structure")
-    st.markdown("❌ No marketing boost")
-    st.markdown("💰 $0 / Free")
-    basic = st.button("Select Basic")
-
-with col2:
-    st.markdown("### 🔵 Premium")
-    st.markdown("High converting Shopify descriptions")
-    st.markdown("✔ Persuasive writing")
-    st.markdown("✔ Marketing optimized")
-    st.markdown("✔ Better sales structure")
-    st.markdown("💰 $9.99 / month")
-    premium = st.button("Select Premium")
-
-with col3:
-    st.markdown("### 🟣 Ultra")
-    st.markdown("Elite conversion + sales copy")
-    st.markdown("✔ Emotional marketing")
-    st.markdown("✔ Urgency & scarcity")
-    st.markdown("✔ Maximum conversion style")
-    st.markdown("💰 $19.99 / month")
-    ultra = st.button("Select Ultra")
+if "plan" not in st.session_state:
+    st.session_state.plan = None
 
 # ======================
-# PLAN LOGIC
+# PAGE 1 - HOME (PLANS)
 # ======================
-if basic:
-    level = "Basic"
-    st.success("Basic plan selected")
-elif premium:
-    level = "Premium"
-    st.success("Premium plan selected")
-elif ultra:
-    level = "Ultra"
-    st.success("Ultra plan selected")
-else:
-    level = "Basic"
+def home():
 
-st.divider()
+    st.title("🚀 DescAI Pro")
+    st.markdown("### Choose your plan to continue")
+    st.divider()
 
-# ======================
-# SIDEBAR SETTINGS
-# ======================
-st.sidebar.title("⚙️ Settings")
+    col1, col2, col3 = st.columns(3)
 
-market = st.sidebar.selectbox(
-    "Target Market",
-    [
-        "United States 🇺🇸",
-        "United Kingdom 🇬🇧",
-        "Canada 🇨🇦",
-        "Australia 🇦🇺",
-        "France 🇫🇷",
-        "Germany 🇩🇪",
-        "Spain 🇪🇸",
-        "Italy 🇮🇹",
-        "Netherlands 🇳🇱",
-        "South Africa 🇿🇦",
-        "Nigeria 🇳🇬",
-        "Kenya 🇰🇪",
-        "Ghana 🇬🇭",
-        "Benin 🇧🇯",
-        "Senegal 🇸🇳",
-        "Ivory Coast 🇨🇮",
-        "Morocco 🇲🇦",
-        "Worldwide 🌍"
-    ]
-)
+    with col1:
+        st.markdown("## 🟢 Basic")
+        st.markdown("Simple product descriptions")
+        st.markdown("💰 Free")
+        if st.button("Select Basic", use_container_width=True):
+            st.session_state.plan = "Basic"
+            st.session_state.page = "app"
+            st.rerun()
 
-languages = ["English", "French", "Spanish", "German", "Italian", "Dutch"]
+    with col2:
+        st.markdown("## 🔵 Premium")
+        st.markdown("High converting descriptions")
+        st.markdown("💰 $9.99")
+        if st.button("Select Premium", use_container_width=True):
+            st.session_state.plan = "Premium"
+            st.session_state.page = "app"
+            st.rerun()
 
-default_language = "English"
+    with col3:
+        st.markdown("## 🟣 Ultra")
+        st.markdown("Elite sales copywriting")
+        st.markdown("💰 $19.99")
+        if st.button("Select Ultra", use_container_width=True):
+            st.session_state.plan = "Ultra"
+            st.session_state.page = "app"
+            st.rerun()
 
-if market in ["France 🇫🇷", "Benin 🇧🇯", "Senegal 🇸🇳", "Ivory Coast 🇨🇮", "Morocco 🇲🇦"]:
-    default_language = "French"
-elif market == "Germany 🇩🇪":
-    default_language = "German"
-elif market == "Spain 🇪🇸":
-    default_language = "Spanish"
-elif market == "Italy 🇮🇹":
-    default_language = "Italian"
-elif market == "Netherlands 🇳🇱":
-    default_language = "Dutch"
-
-default_index = 0
-if default_language in languages:
-    default_index = languages.index(default_language)
-
-language = st.sidebar.selectbox(
-    "Language",
-    languages,
-    index=default_index
-)
-
-tone = st.sidebar.selectbox(
-    "Writing Tone",
-    ["Professional", "Luxury", "Friendly", "Persuasive", "Minimalist"]
-)
 
 # ======================
-# INPUTS
-# ======================
-col1, col2 = st.columns(2)
-
-with col1:
-    product = st.text_input("Product Name", placeholder="Wireless Earbuds, Smart Watch")
-    brand = st.text_input("Brand Name", placeholder="TechPro")
-    price = st.text_input("Price", placeholder="$49.99")
-
-with col2:
-    audience = st.text_input("Target Audience", placeholder="Students, athletes, professionals...")
-    benefit = st.text_area("Main Benefit", placeholder="8-hour battery life, waterproof, noise cancelling")
-
-st.subheader("Features")
-feature1 = st.text_input("Feature 1")
-feature2 = st.text_input("Feature 2")
-feature3 = st.text_input("Feature 3")
-
-# ======================
-# LEVEL SYSTEM (COPYWRITING ENGINE)
+# INTRO ENGINE
 # ======================
 def get_intro(level, tone, product):
 
     if level == "Basic":
-        return f"{product} is a simple and functional product designed for everyday use."
+        return f"{product} is a simple and functional product."
 
     elif level == "Premium":
         if tone == "Luxury":
-            return f"Experience refined excellence with {product}, designed for high performance and style."
+            return f"Experience premium excellence with {product}."
         else:
-            return f"{product} delivers strong performance, comfort, and reliability for daily use."
+            return f"{product} delivers strong performance and reliability."
 
     else:  # Ultra
         if tone == "Luxury":
-            return f"Step into luxury with {product} — designed to impress and dominate expectations."
+            return f"Step into luxury with {product} — premium performance and design."
         else:
-            return f"Don’t settle for average. {product} is built to outperform and maximize results."
+            return f"Don’t settle for average. {product} is built to dominate."
 
 # ======================
-# GENERATION
+# PAGE 2 - APP (GENERATOR)
 # ======================
-if st.button("🚀 GENERATE PRO DESCRIPTION", type="primary", use_container_width=True):
+def app():
 
-    if product.strip() and benefit.strip():
+    st.title("🚀 DescAI Pro Generator")
 
-        intro = get_intro(level, tone, product)
+    st.info(f"Selected Plan: {st.session_state.plan}")
 
-        if language == "French":
-            description = f"""
-# {product}
+    st.divider()
 
-🏷️ Marque : {brand}
-🎯 Marché : {market}
-💎 Plan : {level}
+    # Sidebar settings
+    st.sidebar.title("⚙️ Settings")
 
-{intro}
+    market = st.sidebar.selectbox(
+        "Target Market",
+        [
+            "United States 🇺🇸",
+            "United Kingdom 🇬🇧",
+            "Canada 🇨🇦",
+            "France 🇫🇷",
+            "Germany 🇩🇪",
+            "Spain 🇪🇸",
+            "Worldwide 🌍"
+        ]
+    )
 
-🎯 Pour : {audience}
+    language = st.sidebar.selectbox(
+        "Language",
+        ["English", "French", "Spanish", "German"],
+        index=0
+    )
 
-🔥 Avantage : {benefit}
+    tone = st.sidebar.selectbox(
+        "Writing Tone",
+        ["Professional", "Luxury", "Friendly", "Persuasive"]
+    )
 
-📌 Caractéristiques:
-• {feature1}
-• {feature2}
-• {feature3}
+    # Inputs
+    col1, col2 = st.columns(2)
 
-💰 Prix : {price if price else '49,99 €'}
+    with col1:
+        product = st.text_input("Product Name")
+        brand = st.text_input("Brand")
 
-⚡ Stock limité
-"""
-        else:
+    with col2:
+        audience = st.text_input("Target Audience")
+        price = st.text_input("Price")
+
+    benefit = st.text_area("Main Benefit")
+
+    feature1 = st.text_input("Feature 1")
+    feature2 = st.text_input("Feature 2")
+    feature3 = st.text_input("Feature 3")
+
+    # Generate
+    if st.button("🚀 GENERATE", use_container_width=True):
+
+        if product and benefit:
+
+            intro = get_intro(st.session_state.plan, tone, product)
+
             description = f"""
 # {product}
 
 🏷️ Brand: {brand}
-🎯 Market: {market}
-💎 Plan: {level}
+💎 Plan: {st.session_state.plan}
 
 {intro}
 
@@ -216,22 +156,19 @@ if st.button("🚀 GENERATE PRO DESCRIPTION", type="primary", use_container_widt
 • {feature2}
 • {feature3}
 
-💰 Price: {price if price else '$49.99'}
+💰 Price: {price}
 
 ⚡ Limited stock
 """
 
-        st.success("✅ Description generated successfully")
-        st.text_area("Result", value=description, height=300)
+            st.success("Generated successfully")
+            st.text_area("Result", value=description, height=300)
 
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Plan", level)
-        with col2:
-            st.metric("Status", "READY")
+        else:
+            st.warning("Fill required fields")
 
-    else:
-        st.warning("⚠️ Please fill Product Name and Main Benefit")
 
-st.sidebar.divider()
-st.sidebar.caption("DescAI Pro SaaS Version 🚀") 
+# ======================
+# ROUTER (PAGE SYSTEM)
+# ======================
+if st.session_state.page == "
