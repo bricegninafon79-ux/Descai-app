@@ -75,7 +75,7 @@ st.sidebar.write(f"Paid: {st.session_state.paid}")
 def home():
 
     st.title("🚀 DescAI Pro")
-    st.markdown("### Choose your plan")
+st.markdown("### Choose your plan")
 
     col1, col2, col3 = st.columns(3)
 
