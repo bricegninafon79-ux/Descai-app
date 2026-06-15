@@ -10,51 +10,6 @@ st.set_page_config(
 )
 
 # ======================
-# CSS SaaS DESIGN
-# ======================
-st.markdown("""
-<style>
-
-.stApp {
-    background: #0A0A0A;
-    color: white;
-}
-
-h1 {
-    font-weight: 800 !important;
-}
-
-.stButton > button {
-    border-radius: 12px !important;
-    font-weight: bold !important;
-    background: linear-gradient(90deg, #7C3AED, #3B82F6);
-    color: white;
-}
-
-.stTextInput input,
-.stTextArea textarea {
-    border-radius: 12px !important;
-    background-color: #111;
-    color: white;
-}
-
-/* BADGES */
-.badges {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #aaa;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class='badges'>
-⚡ No Signup &nbsp;&nbsp; 🚀 Instant Results &nbsp;&nbsp; 💰 SaaS Ready
-</div>
-""", unsafe_allow_html=True)
-
-# ======================
 # SESSION STATE
 # ======================
 if "page" not in st.session_state:
@@ -66,8 +21,9 @@ if "plan" not in st.session_state:
 if "paid" not in st.session_state:
     st.session_state.paid = False
 
+
 # ======================
-# SIDEBAR
+# SIDEBAR GLOBAL
 # ======================
 st.sidebar.title("⚙️ Settings")
 
@@ -92,14 +48,11 @@ st.sidebar.write(f"Paid: {st.session_state.paid}")
 
 
 # ======================
-# HOME PAGE
+# HOME PAGE (PLANS WITH FULL DESCRIPTION)
 # ======================
 def home():
 
-    st.markdown("<h1 style='text-align:center;'>Turn Features Into Money</h1>", unsafe_allow_html=True)
-
-    st.markdown("<p style='text-align:center;color:gray;'>AI Product Descriptions in 6 Seconds</p>", unsafe_allow_html=True)
-
+    st.title("🚀 DescAI Pro")
     st.markdown("### Choose your plan")
 
     col1, col2, col3 = st.columns(3)
@@ -111,24 +64,33 @@ def home():
 
     with col1:
         st.markdown("## 🟢 Basic")
+        st.markdown("Simple & fast product descriptions")
+        st.markdown("✔ Clean structure")
+        st.markdown("✔ Good for testing products")
+        st.markdown("❌ No marketing optimization")
         st.markdown("💰 $9.99 / month")
         if st.button("Select Basic", use_container_width=True):
             select_plan("Basic")
 
     with col2:
         st.markdown("## 🔵 Premium")
+        st.markdown("High converting Shopify descriptions")
+        st.markdown("✔ Persuasive copywriting")
+        st.markdown("✔ Marketing optimized")
+        st.markdown("✔ Better conversion rate")
         st.markdown("💰 $15.99 / month")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
 
     with col3:
         st.markdown("## 🟣 Ultra")
+        st.markdown("Elite sales copywriting engine")
+        st.markdown("✔ Emotional marketing")
+        st.markdown("✔ Scarcity & urgency")
+        st.markdown("✔ Maximum conversion focus")
         st.markdown("💰 $22.99 / month")
         if st.button("Select Ultra", use_container_width=True):
             select_plan("Ultra")
-
-    st.divider()
-    st.caption("Built with passion by kēllønę 🔗💨")
 
 
 # ======================
@@ -160,8 +122,6 @@ def payment():
             st.session_state.page = "home"
             st.rerun()
 
-    st.caption("DescAI Pro system by kēllønę 🔗💨")
-
 
 # ======================
 # INTRO ENGINE
@@ -174,16 +134,12 @@ def get_intro(level, tone, product):
     elif level == "Premium":
         if tone == "Luxury":
             return f"Experience premium quality with {product}."
-        elif tone == "Persuasive":
-            return f"{product} is designed to boost your results instantly."
         else:
             return f"{product} delivers strong performance and value."
 
     else:
         if tone == "Luxury":
             return f"Step into luxury with {product} — premium design and performance."
-        elif tone == "Persuasive":
-            return f"Stop losing sales. {product} is built to dominate."
         else:
             return f"Don’t settle for average. {product} is built to dominate."
 
@@ -198,9 +154,8 @@ def app():
         st.rerun()
 
     st.title("🚀 DescAI Pro Generator")
-    st.caption("Created by kēllønę 🔗💨")
 
-    st.success(f"Access granted — {st.session_state.plan} Plan")
+    st.success(f"Access granted - Plan: {st.session_state.plan}")
 
     st.divider()
 
@@ -214,15 +169,13 @@ def app():
     feature2 = st.text_input("Feature 2")
     feature3 = st.text_input("Feature 3")
 
-    if st.button("🚀 GENERATE SALES-READY COPY", use_container_width=True):
+    if st.button("🚀 GENERATE", use_container_width=True):
 
         if product and benefit:
 
             intro = get_intro(st.session_state.plan, tone, product)
 
-            with st.spinner("AI is crafting your description..."):
-
-                result = f"""
+            result = f"""
 # {product}
 
 🏷️ Brand: {brand}
@@ -230,24 +183,20 @@ def app():
 
 {intro}
 
-🎯 Target: {audience}
+🎯 For: {audience}
 
-🔥 Main Benefit:
-{benefit}
+🔥 Benefit: {benefit}
 
 📌 Features:
 • {feature1}
 • {feature2}
 • {feature3}
 
-💰 Price: {price if price else "Not set"}
+💰 Price: {price}
 """
 
             st.success("Generated successfully")
-
-            st.text_area("📋 Your Shopify Description", value=result, height=350)
-
-            st.info(f"🔥 Plan: {st.session_state.plan} | Tone: {tone}")
+            st.text_area("Result", value=result, height=300)
 
         else:
             st.warning("Fill required fields")
@@ -258,12 +207,7 @@ def app():
 # ======================
 if st.session_state.page == "home":
     home()
-
 elif st.session_state.page == "payment":
     payment()
-
 else:
     app()
-
-st.divider()
-st.caption("DescAI Pro © 2026 | Built by kēllønę 🔗💨 | SaaS AI Generator")
