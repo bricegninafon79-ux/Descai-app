@@ -38,68 +38,75 @@ if "page" not in st.session_state:
     st.session_state.page = "home"
 
 if "plan" not in st.session_state:
-    st.session_state.plan = None
+    st. session_state . plan = None
 
-if "paid" not in st.session_state:
-    st.session_state.paid = False
+si  « payé »  n'est pas  dans st. session_state :
+    st.session_state.payé = Faux​​​
 
 
 # ======================
-# SIDEBAR GLOBAL
+# BARRE LATÉRALE GLOBALE
 # ======================
-st.sidebar.title("⚙️ Settings")
+st. sidebar . title ( "⚙️ Paramètres" )
 
-market = st.sidebar.selectbox(
-    "Target Market",
-    ["United States 🇺🇸", "France 🇫🇷", "Germany 🇩🇪", "Worldwide 🌍"]
+marché = st. barre latérale . selectbox (
+    « Marché cible »
+    [ "États-Unis 🇺🇸" , "France 🇫🇷" , "Allemagne 🇩🇪" , "Monde entier 🌍" ]
 )
 
-language = st.sidebar.selectbox(
-    "Language",
-    ["English", "French", "Spanish", "German"]
+langue = st. barre latérale . selectbox (
+    "Langue" ,
+    [ "Anglais" , "Français" , "Espagnol" , "Allemand" ]
 )
 
-tone = st.sidebar.selectbox(
-    "Writing Tone",
-    ["Professional", "Luxury", "Friendly", "Persuasive"]
+ton = st. barre latérale . selectbox (
+    « Ton de l'écriture » ,
+    [ "Professionnel" , "Luxe" , "Convivial" , "Persuasif" ]
 )
 
-st.sidebar.divider()
-st.sidebar.write(f"Plan: {st.session_state.plan}")
-st.sidebar.write(f"Paid: {st.session_state.paid}")
+st. barre latérale . séparateur ( )
+st.sidebar.write ( f " Plan : { st.session_state.plan } " )​​​
+st.sidebar.write ( f " Payé : { st.session_state.paid } " )​​​
 
 
 # ======================
-# HOME PAGE (PLANS WITH FULL DESCRIPTION)
+# PAGE D'ACCUEIL (PLUS DE PLANS AVEC DESCRIPTION COMPLÈTE)
 # ======================
-def home():
+def  home ( ) :
 
-    st.title("🚀 DescAI Pro")
-st.markdown("### Choose your plan")
+    st.markdown(
+    "<h1 style='text-align:center;'>Turn Features Into Money</h1>",
+    unsafe_allow_html=True
+)
 
-    col1, col2, col3 = st.columns(3)
+st.markdown(
+    "<p style='text-align:center;color:gray;'>AI Product Descriptions in 6 Seconds</p>",
+    unsafe_allow_html=True
+)
 
-    def select_plan(plan):
-        st.session_state.plan = plan
-        st.session_state.page = "payment"
-        st.rerun()
+    col1, col2, col3 = st. colonnes ( 3 )
 
-    with col1:
-        st.markdown("## 🟢 Basic")
-        st.markdown("Simple & fast product descriptions")
-        st.markdown("✔ Clean structure")
-        st.markdown("✔ Good for testing products")
-        st.markdown("❌ No marketing optimization")
-        st.markdown("💰 $9.99 / month")
-        if st.button("Select Basic", use_container_width=True):
-            select_plan("Basic")
+    def  select_plan ( plan ) :
+        st. session_state . plan = plan
+        st. session_state . page = "paiement"
+        st. rediffusion ( )
 
-    with col2:
-        st.markdown("## 🔵 Premium")
-        st.markdown("High converting Shopify descriptions")
-        st.markdown("✔ Persuasive copywriting")
-        st.markdown("✔ Marketing optimized")
-        st.markdown("✔ Better conversion rate")
+    avec col1 :
+        st.markdown ( "## 🟢 Basique " )
+        st.markdown ( « Descriptions de produits simples et rapides » )
+        st.markdown ( "✔ Structure propre " )
+        st.markdown ( "✔ Idéal pour tester des produits " )
+        st.markdown ( "❌ Aucune optimisation marketing " )
+        st. markdown ( "💰 9,99 $ / mois" )
+        si st.button ( "Sélectionner basique" , use_container_width = True ) :
+            sélectionner_plan ( "Basique" )
+
+    avec col2 :
+        st.markdown ( " ## 🔵 Premium" )
+        st.markdown ( « Descriptions Shopify à fort taux de conversion » )
+        st.markdown ( "✔ Rédaction publicitaire persuasive " )
+        st.markdown ( "✔ Optimisé pour le marketing " )
+        st.markdown ( "✔ Meilleur taux de conversion " )
         st.markdown("💰 $15.99 / month")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
