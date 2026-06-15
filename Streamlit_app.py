@@ -8,6 +8,28 @@ st.set_page_config(
     page_icon="🚀",
     layout="wide"
 )
+st.markdown("""
+<style>
+.stApp {
+    background: #0A0A0A;
+    color: white;
+}
+
+h1 {
+    font-weight: 800 !important;
+}
+
+.stButton > button {
+    border-radius: 12px !important;
+    font-weight: bold !important;
+}
+
+.stTextInput input,
+.stTextArea textarea {
+    border-radius: 12px !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # ======================
 # SESSION STATE
