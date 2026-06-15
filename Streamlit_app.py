@@ -8,8 +8,13 @@ st.set_page_config(
     page_icon="🚀",
     layout="wide"
 )
+
+# ======================
+# CSS SaaS DESIGN
+# ======================
 st.markdown("""
 <style>
+
 .stApp {
     background: #0A0A0A;
     color: white;
@@ -22,13 +27,31 @@ h1 {
 .stButton > button {
     border-radius: 12px !important;
     font-weight: bold !important;
+    background: linear-gradient(90deg, #7C3AED, #3B82F6);
+    color: white;
 }
 
 .stTextInput input,
 .stTextArea textarea {
     border-radius: 12px !important;
+    background-color: #111;
+    color: white;
 }
+
+/* BADGES */
+.badges {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #aaa;
+}
+
 </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class='badges'>
+⚡ No Signup &nbsp;&nbsp; 🚀 Instant Results &nbsp;&nbsp; 💰 SaaS Ready
+</div>
 """, unsafe_allow_html=True)
 
 # ======================
@@ -38,88 +61,74 @@ if "page" not in st.session_state:
     st.session_state.page = "home"
 
 if "plan" not in st.session_state:
-    st. session_state . plan = None
+    st.session_state.plan = None
 
-si  « payé »  n'est pas  dans st. session_state :
-    st.session_state.payé = Faux​​​
+if "paid" not in st.session_state:
+    st.session_state.paid = False
+
+# ======================
+# SIDEBAR
+# ======================
+st.sidebar.title("⚙️ Settings")
+
+market = st.sidebar.selectbox(
+    "Target Market",
+    ["United States 🇺🇸", "France 🇫🇷", "Germany 🇩🇪", "Worldwide 🌍"]
+)
+
+language = st.sidebar.selectbox(
+    "Language",
+    ["English", "French", "Spanish", "German"]
+)
+
+tone = st.sidebar.selectbox(
+    "Writing Tone",
+    ["Professional", "Luxury", "Friendly", "Persuasive"]
+)
+
+st.sidebar.divider()
+st.sidebar.write(f"Plan: {st.session_state.plan}")
+st.sidebar.write(f"Paid: {st.session_state.paid}")
 
 
 # ======================
-# BARRE LATÉRALE GLOBALE
+# HOME PAGE
 # ======================
-st. sidebar . title ( "⚙️ Paramètres" )
+def home():
 
-marché = st. barre latérale . selectbox (
-    « Marché cible »
-    [ "États-Unis 🇺🇸" , "France 🇫🇷" , "Allemagne 🇩🇪" , "Monde entier 🌍" ]
-)
+    st.markdown("<h1 style='text-align:center;'>Turn Features Into Money</h1>", unsafe_allow_html=True)
 
-langue = st. barre latérale . selectbox (
-    "Langue" ,
-    [ "Anglais" , "Français" , "Espagnol" , "Allemand" ]
-)
+    st.markdown("<p style='text-align:center;color:gray;'>AI Product Descriptions in 6 Seconds</p>", unsafe_allow_html=True)
 
-ton = st. barre latérale . selectbox (
-    « Ton de l'écriture » ,
-    [ "Professionnel" , "Luxe" , "Convivial" , "Persuasif" ]
-)
+    st.markdown("### Choose your plan")
 
-st. barre latérale . séparateur ( )
-st.sidebar.write ( f " Plan : { st.session_state.plan } " )​​​
-st.sidebar.write ( f " Payé : { st.session_state.paid } " )​​​
+    col1, col2, col3 = st.columns(3)
 
+    def select_plan(plan):
+        st.session_state.plan = plan
+        st.session_state.page = "payment"
+        st.rerun()
 
-# ======================
-# PAGE D'ACCUEIL (PLUS DE PLANS AVEC DESCRIPTION COMPLÈTE)
-# ======================
-def  home ( ) :
+    with col1:
+        st.markdown("## 🟢 Basic")
+        st.markdown("💰 $9.99 / month")
+        if st.button("Select Basic", use_container_width=True):
+            select_plan("Basic")
 
-    st.markdown(
-    "<h1 style='text-align:center;'>Turn Features Into Money</h1>",
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    "<p style='text-align:center;color:gray;'>AI Product Descriptions in 6 Seconds</p>",
-    unsafe_allow_html=True
-)
-
-    col1, col2, col3 = st. colonnes ( 3 )
-
-    def  select_plan ( plan ) :
-        st. session_state . plan = plan
-        st. session_state . page = "paiement"
-        st. rediffusion ( )
-
-    avec col1 :
-        st.markdown ( "## 🟢 Basique " )
-        st.markdown ( « Descriptions de produits simples et rapides » )
-        st.markdown ( "✔ Structure propre " )
-        st.markdown ( "✔ Idéal pour tester des produits " )
-        st.markdown ( "❌ Aucune optimisation marketing " )
-        st. markdown ( "💰 9,99 $ / mois" )
-        si st.button ( "Sélectionner basique" , use_container_width = True ) :
-            sélectionner_plan ( "Basique" )
-
-    avec col2 :
-        st.markdown ( " ## 🔵 Premium" )
-        st.markdown ( « Descriptions Shopify à fort taux de conversion » )
-        st.markdown ( "✔ Rédaction publicitaire persuasive " )
-        st.markdown ( "✔ Optimisé pour le marketing " )
-        st.markdown ( "✔ Meilleur taux de conversion " )
+    with col2:
+        st.markdown("## 🔵 Premium")
         st.markdown("💰 $15.99 / month")
         if st.button("Select Premium", use_container_width=True):
             select_plan("Premium")
 
     with col3:
         st.markdown("## 🟣 Ultra")
-        st.markdown("Elite sales copywriting engine")
-        st.markdown("✔ Emotional marketing")
-        st.markdown("✔ Scarcity & urgency")
-        st.markdown("✔ Maximum conversion focus")
         st.markdown("💰 $22.99 / month")
         if st.button("Select Ultra", use_container_width=True):
             select_plan("Ultra")
+
+    st.divider()
+    st.caption("Built with passion by kēllønę 🔗💨")
 
 
 # ======================
@@ -151,6 +160,8 @@ def payment():
             st.session_state.page = "home"
             st.rerun()
 
+    st.caption("DescAI Pro system by kēllønę 🔗💨")
+
 
 # ======================
 # INTRO ENGINE
@@ -163,12 +174,16 @@ def get_intro(level, tone, product):
     elif level == "Premium":
         if tone == "Luxury":
             return f"Experience premium quality with {product}."
+        elif tone == "Persuasive":
+            return f"{product} is designed to boost your results instantly."
         else:
             return f"{product} delivers strong performance and value."
 
     else:
         if tone == "Luxury":
             return f"Step into luxury with {product} — premium design and performance."
+        elif tone == "Persuasive":
+            return f"Stop losing sales. {product} is built to dominate."
         else:
             return f"Don’t settle for average. {product} is built to dominate."
 
@@ -183,8 +198,9 @@ def app():
         st.rerun()
 
     st.title("🚀 DescAI Pro Generator")
+    st.caption("Created by kēllønę 🔗💨")
 
-    st.success(f"Access granted - Plan: {st.session_state.plan}")
+    st.success(f"Access granted — {st.session_state.plan} Plan")
 
     st.divider()
 
@@ -198,13 +214,15 @@ def app():
     feature2 = st.text_input("Feature 2")
     feature3 = st.text_input("Feature 3")
 
-    if st.button("🚀 GENERATE", use_container_width=True):
+    if st.button("🚀 GENERATE SALES-READY COPY", use_container_width=True):
 
         if product and benefit:
 
             intro = get_intro(st.session_state.plan, tone, product)
 
-            result = f"""
+            with st.spinner("AI is crafting your description..."):
+
+                result = f"""
 # {product}
 
 🏷️ Brand: {brand}
@@ -212,20 +230,24 @@ def app():
 
 {intro}
 
-🎯 For: {audience}
+🎯 Target: {audience}
 
-🔥 Benefit: {benefit}
+🔥 Main Benefit:
+{benefit}
 
 📌 Features:
 • {feature1}
 • {feature2}
 • {feature3}
 
-💰 Price: {price}
+💰 Price: {price if price else "Not set"}
 """
 
             st.success("Generated successfully")
-            st.text_area("Result", value=result, height=300)
+
+            st.text_area("📋 Your Shopify Description", value=result, height=350)
+
+            st.info(f"🔥 Plan: {st.session_state.plan} | Tone: {tone}")
 
         else:
             st.warning("Fill required fields")
@@ -236,7 +258,12 @@ def app():
 # ======================
 if st.session_state.page == "home":
     home()
+
 elif st.session_state.page == "payment":
     payment()
+
 else:
     app()
+
+st.divider()
+st.caption("DescAI Pro © 2026 | Built by kēllønę 🔗💨 | SaaS AI Generator")
