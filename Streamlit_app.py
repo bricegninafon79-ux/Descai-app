@@ -8,7 +8,7 @@ import calendar
 st.title("🚀 DescAI Pro")
 
 st.markdown("### AI-powered Shopify descriptions that convert buyers")
-st.markdown("DescAI Pro génère des descriptions de produits optimisées pour augmenter tes ventes et attirer plus de clients.")
+st.markdown("DescAI Pro generates optimized product descriptions designed to increase your sales and attract more customers.")
 
 # ======================
 # CSS DESIGN SAAS
