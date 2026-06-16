@@ -1,4 +1,6 @@
 import streamlit as st
+from datetime import datetime
+import calendar
 
 # ======================
 # CONFIG
@@ -8,6 +10,62 @@ st.set_page_config(
     page_icon="🚀",
     layout="wide"
 )
+
+# ======================
+# CSS DESIGN SAAS
+# ======================
+st.markdown("""
+<style>
+
+.stApp {
+    background: #0b1220;
+    color: white;
+}
+
+[data-testid="stSidebar"] {
+    background: #111827;
+}
+
+h1, h2, h3 {
+    color: white;
+}
+
+.stButton > button {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    border-radius: 12px;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+}
+
+.plan-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #334155;
+}
+
+.notification {
+    background: linear-gradient(135deg, #ff4b4b, #ff9800);
+    padding: 20px;
+    border-radius: 18px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.footer {
+    text-align: center;
+    color: #94a3b8;
+    margin-top: 40px;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ======================
 # SESSION STATE
@@ -23,7 +81,26 @@ if "paid" not in st.session_state:
 
 
 # ======================
-# SIDEBAR GLOBAL
+# NOTIFICATION RENOUVELLEMENT (28+)
+# ======================
+today = datetime.now()
+
+if today.day >= 28:
+    last_day = calendar.monthrange(today.year, today.month)[1]
+    days_left = last_day - today.day
+
+    st.markdown(f"""
+    <div class="notification">
+        🔔 Votre abonnement DescAI Pro arrive à expiration.<br><br>
+        Renouvelez-le avant la fin du mois pour continuer à accéder à toutes les fonctionnalités<br>
+        et à des descriptions optimisées pour augmenter vos ventes.<br><br>
+        ⏳ Il reste {days_left} jour(s).
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ======================
+# SIDEBAR
 # ======================
 st.sidebar.title("⚙️ Settings")
 
@@ -43,12 +120,21 @@ tone = st.sidebar.selectbox(
 )
 
 st.sidebar.divider()
-st.sidebar.write(f"Plan: {st.session_state.plan}")
-st.sidebar.write(f"Paid: {st.session_state.paid}")
+
+st.sidebar.write("Plan:", st.session_state.plan)
+st.sidebar.write("Paid:", st.session_state.paid)
 
 
 # ======================
-# HOME PAGE (PLANS WITH FULL DESCRIPTION)
+# NAVIGATION
+# ======================
+def go(page):
+    st.session_state.page = page
+    st.rerun()
+
+
+# ======================
+# HOME
 # ======================
 def home():
 
@@ -59,147 +145,125 @@ def home():
 
     def select_plan(plan):
         st.session_state.plan = plan
-        st.session_state.page = "payment"
-        st.rerun()
+        go("payment")
 
     with col1:
         st.markdown("## 🟢 Basic")
-        st.markdown("Simple & fast product descriptions")
-        st.markdown("✔ Clean structure")
-        st.markdown("✔ Good for testing products")
-        st.markdown("❌ No marketing optimization")
-        st.markdown("💰 $9.99 / month")
-        if st.button("Select Basic", use_container_width=True):
+        st.write("Simple descriptions")
+        st.write("✔ Basic structure")
+        st.write("💰 $9.99 / month")
+        if st.button("Select Basic"):
             select_plan("Basic")
 
     with col2:
         st.markdown("## 🔵 Premium")
-        st.markdown("High converting Shopify descriptions")
-        st.markdown("✔ Persuasive copywriting")
-        st.markdown("✔ Marketing optimized")
-        st.markdown("✔ Better conversion rate")
-        st.markdown("💰 $15.99 / month")
-        if st.button("Select Premium", use_container_width=True):
+        st.write("High converting copy")
+        st.write("✔ Marketing optimized")
+        st.write("💰 $15.99 / month")
+        if st.button("Select Premium"):
             select_plan("Premium")
 
     with col3:
         st.markdown("## 🟣 Ultra")
-        st.markdown("Elite sales copywriting engine")
-        st.markdown("✔ Emotional marketing")
-        st.markdown("✔ Scarcity & urgency")
-        st.markdown("✔ Maximum conversion focus")
-        st.markdown("💰 $22.99 / month")
-        if st.button("Select Ultra", use_container_width=True):
+        st.write("Elite sales copywriting")
+        st.write("✔ Maximum conversion")
+        st.write("💰 $22.99 / month")
+        if st.button("Select Ultra"):
             select_plan("Ultra")
 
 
 # ======================
-# PAYMENT PAGE
+# PAYMENT
 # ======================
 def payment():
 
-    st.title("💳 Payment Required")
+    st.title("💳 Payment")
 
-    st.info(f"Plan: {st.session_state.plan}")
+    st.info(f"Selected Plan: {st.session_state.plan}")
 
-    st.warning("You must complete payment before access")
+    st.warning("Complete payment to continue")
 
-    if st.session_state.plan == "Basic":
-        st.success("Free plan")
+    if st.button("💳 Simulate Payment"):
 
-        if st.button("Continue"):
-            st.session_state.paid = True
-            st.session_state.page = "app"
-            st.rerun()
+        st.session_state.paid = True
 
-    else:
-        if st.button("💳 Simulate Payment Success"):
-            st.session_state.paid = True
-            st.session_state.page = "app"
-            st.rerun()
+        st.success("""
+🎉 Merci pour votre abonnement à DescAI Pro !
 
-        if st.button("⬅️ Back"):
-            st.session_state.page = "home"
-            st.rerun()
+Nous sommes ravis de vous accueillir dans cette aventure.
 
+Vous avez désormais accès à des descriptions optimisées pour améliorer vos conversions et développer votre boutique.
 
-# ======================
-# INTRO ENGINE
-# ======================
-def get_intro(level, tone, product):
+🚀 Bienvenue dans la communauté DescAI Pro !
+""")
 
-    if level == "Basic":
-        return f"{product} is a simple and functional product."
+        st.balloons()
 
-    elif level == "Premium":
-        if tone == "Luxury":
-            return f"Experience premium quality with {product}."
-        else:
-            return f"{product} delivers strong performance and value."
+        if st.button("🚀 Start Now"):
+            go("app")
 
-    else:
-        if tone == "Luxury":
-            return f"Step into luxury with {product} — premium design and performance."
-        else:
-            return f"Don’t settle for average. {product} is built to dominate."
+    if st.button("⬅️ Back"):
+        go("home")
 
 
 # ======================
-# APP PAGE
+# APP GENERATOR
 # ======================
 def app():
 
     if not st.session_state.paid:
-        st.session_state.page = "payment"
-        st.rerun()
+        go("payment")
 
-    st.title("🚀 DescAI Pro Generator")
+    st.title("🚀 DescAI Generator")
 
-    st.success(f"Access granted - Plan: {st.session_state.plan}")
-
-    st.divider()
+    st.success(f"Active Plan: {st.session_state.plan}")
 
     product = st.text_input("Product Name")
     brand = st.text_input("Brand")
-    audience = st.text_input("Target Audience")
+    audience = st.text_input("Audience")
     price = st.text_input("Price")
     benefit = st.text_area("Main Benefit")
 
-    feature1 = st.text_input("Feature 1")
-    feature2 = st.text_input("Feature 2")
-    feature3 = st.text_input("Feature 3")
-
-    if st.button("🚀 GENERATE", use_container_width=True):
+    if st.button("Generate"):
 
         if product and benefit:
 
-            intro = get_intro(st.session_state.plan, tone, product)
+            intro = f"{product} is built for performance."
 
             result = f"""
 # {product}
 
-🏷️ Brand: {brand}
-💎 Plan: {st.session_state.plan}
+Brand: {brand}
+Plan: {st.session_state.plan}
 
 {intro}
 
-🎯 For: {audience}
+Benefit: {benefit}
 
-🔥 Benefit: {benefit}
-
-📌 Features:
-• {feature1}
-• {feature2}
-• {feature3}
-
-💰 Price: {price}
+Price: {price}
 """
 
-            st.success("Generated successfully")
-            st.text_area("Result", value=result, height=300)
+            st.text_area("Output", result, height=250)
 
         else:
             st.warning("Fill required fields")
+
+
+# ======================
+# MY ACCOUNT
+# ======================
+def account():
+
+    st.title("👤 My Account")
+
+    st.write("Plan:", st.session_state.plan)
+    st.write("Paid:", st.session_state.paid)
+
+    if today.day >= 28:
+        st.warning("⚠️ Renewal period active - please renew your subscription")
+
+    if st.button("🔙 Back"):
+        go("app")
 
 
 # ======================
@@ -209,5 +273,17 @@ if st.session_state.page == "home":
     home()
 elif st.session_state.page == "payment":
     payment()
-else:
+elif st.session_state.page == "app":
     app()
+elif st.session_state.page == "account":
+    account()
+
+
+# ======================
+# FOOTER
+# ======================
+st.markdown("""
+<div class="footer">
+Created by kēllønę 🔗💨
+</div>
+""", unsafe_allow_html=True)
